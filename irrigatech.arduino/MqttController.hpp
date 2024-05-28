@@ -36,7 +36,11 @@ public:
 
   void publish(const char* topic, const char* message)
   {
-    client.publish(topic, message);
+    if (client.publish(topic, message))
+      Serial.print("Mensaje enviado [");
+      Serial.print(topic);
+      Serial.print("]: ");
+      Serial.println(message);
   }
 
   void loop()
@@ -51,7 +55,7 @@ private:
   {
     while (!client.connected())
     {
-      Serial.print("Conectando al broker MQTT...");
+      Serial.println("Conectando al broker MQTT...");
       if (client.connect(id))
       {
         Serial.println("Conectado");

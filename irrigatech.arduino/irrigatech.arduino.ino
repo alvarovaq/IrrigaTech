@@ -1,8 +1,13 @@
 #include "WifiConnection.hpp"
 #include "MqttController.hpp"
 #include "config.h"
+#include <time.h>
+#include <climits>
+
+#define TEMP_SENDSTATUS 60000
 
 const int SignalPin = 2;
+time_t tm_sendstatus = 0;
 
 MqttController mqttCtrl("ESP32_1");
 
@@ -16,6 +21,15 @@ void setup() {
 
 void loop() {
   mqttCtrl.loop();
+
+  auto now = millis();
+  auto diff = now >= tm_sendstatus ? now - tm_sendstatus : ULLONG_MAX - tm_sendstatus + now;
+  if (diff > TEMP_SENDSTATUS)
+  {
+    tm_sendstatus = now;
+    int val = digitalRead(SignalPin);
+    mqttCtrl.publish("irrigatech/pull_status", val == HIGH ? "ON" : "OFF");
+  }
 }
 
 void onMessageReceived(char* topic, byte* payload, unsigned int length) {
