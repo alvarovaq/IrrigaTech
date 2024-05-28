@@ -23,6 +23,11 @@ export class MqttService implements OnModuleInit {
 
         this.mqttClient.on("connect", function () {
             info("Connected to CludMQTT");
+            this.subscribe('irrigatech/pull_status');
+        });
+
+        this.mqttClient.on('message', (topic, message) => {
+            info("Receive message: " + topic + ": " + message);
         });
 
         this.mqttClient.on("error", function () {
@@ -34,6 +39,12 @@ export class MqttService implements OnModuleInit {
         info(`Publishing to ${topic}`);
         this.mqttClient.publish(topic, payload);
         return `Publishing to ${topic}`;
+    }
+
+    subscribe(topic: string) {
+        info(`Subscribe to topic ${topic}`);
+        const pattern = { cmd: 'subscribe', topic };
+        return this.mqttClient.send(pattern, {});
     }
 
 }
