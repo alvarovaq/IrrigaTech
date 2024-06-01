@@ -1,25 +1,41 @@
-.toolbar
+.home-container
 {
-    margin-bottom: 10px;
+    padding: 10px 10px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
 }
 
-.app-title
-{
+.card {
     display: flex;
     flex-direction: row;
     justify-content: center;
-    gap: 10px;
-    cursor: pointer;
-    -webkit-user-select: none;
-    -moz-user-select: none;
-    -ms-user-select: none;
-    user-select: none; 
+    align-items: center;
+    width: 400px;
+    max-width: 400px;
+    padding: 5px 10px 5px 20px;
+    border-radius: 20px;
+    box-shadow: 5px 5px 10px 1px rgba(0, 0, 0, 0.2);
 }
 
-.app-title img {
-    width: 1.5em;
+.card .status
+{
+    font-size: 24px;
 }
 
-.example-spacer {
-    flex: 1 1 auto;
+.card.on .status{
+    color: #4af735;
+}
+
+.card.off .status
+{
+    color: #f74135;
+}
+
+.card p {
+    margin: 0;
+}
+
+.card .description {
+    color: grey;
 }

@@ -1,14 +1,13 @@
-<mat-toolbar color="secondary" class="toolbar">
-    <span class="app-title">
-        <img src="assets/icons/irrigatech.png" />
-        IrrigaTech
-    </span>
-    <span class="example-spacer"></span>
-    <button mat-icon-button matTooltip="Basic" aria-label="Cerrar sesión">
-        <mat-icon aria-hidden="false">logout</mat-icon>
-      </button>
-</mat-toolbar>
+<app-toolbar></app-toolbar>
 
-<button (click)="setStatus(true)" clickable>Encender</button>
-<button (click)="setStatus(false)">Apagar</button>
-<p>{{status ? "Encendido" : "Apagado"}}</p>
+<div class="home-container">
+    <div [class]="'card ' + (status ? 'on' : 'off')">
+        <p class="status">{{status ? "ON" : "OFF"}}</p>
+        <span class="spacer"></span>
+        <p class="description">{{status ? 'hh:mm:ss' : 'Parado hace XX min'}}</p>
+        <span class="spacer"></span>
+        <button mat-icon-button [color]="status ? 'primary' : 'secondary'" (click)="setStatus(!status)">
+            <mat-icon>{{status ? 'pause' : 'play_arrow'}}</mat-icon>
+        </button>
+    </div> 
+</div>
