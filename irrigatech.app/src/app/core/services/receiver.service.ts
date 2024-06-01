@@ -23,11 +23,8 @@ export class ReceiverService {
       console.log('Disconnected from WebSocket server');
     });
   
-    this.socketService.onMessage('updateStatus').subscribe((status: string) => {
-      if (status == "ON")
-        this.valvulasService.update(true);
-      else if (status == "OFF")
-        this.valvulasService.update(false);
+    this.socketService.onMessage('updateStatus').subscribe((open: boolean) => {
+      this.valvulasService.update(open);
     });
   }
 }

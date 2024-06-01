@@ -24,7 +24,7 @@ export class SocketService implements OnModuleInit, OnGatewayInit, OnGatewayConn
 
   onModuleInit() {
     this.valvulasService.OnUpdate().subscribe((open: boolean) => {
-      this.sendMessage('updateStatus', open ? 'ON' : 'OFF');
+      this.sendMessage('updateStatus', open);
     });
   }
 
@@ -40,7 +40,7 @@ export class SocketService implements OnModuleInit, OnGatewayInit, OnGatewayConn
     console.log(`Client disconnected: ${client.id}`);
   }
 
-  sendMessage(ev: string, msg: string)
+  sendMessage(ev: string, msg: any)
   {
     info(`Enviando mensaje: ${msg}`);
     this.server.emit(ev, msg);
