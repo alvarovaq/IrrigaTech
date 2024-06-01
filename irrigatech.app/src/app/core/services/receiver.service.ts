@@ -1,6 +1,7 @@
 import { Injectable } from '@angular/core';
 import { SocketService } from './socket.service';
 import { ValvulasService } from './valvulas.service';
+import { Valvula } from '@core/interfaces/valvula.interface';
 
 @Injectable({
   providedIn: 'root'
@@ -23,8 +24,8 @@ export class ReceiverService {
       console.log('Disconnected from WebSocket server');
     });
   
-    this.socketService.onMessage('updateStatus').subscribe((open: boolean) => {
-      this.valvulasService.update(open);
+    this.socketService.onMessage('updateStatus').subscribe((valvula: Valvula) => {
+      this.valvulasService.update(valvula);
     });
   }
 }

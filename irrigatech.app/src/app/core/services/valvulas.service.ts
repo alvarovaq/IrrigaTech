@@ -1,34 +1,40 @@
 import { Injectable } from '@angular/core';
 import { BehaviorSubject, Observable } from 'rxjs';
 import { ControladorService } from './controlador.service';
+import { Valvula } from '@core/interfaces/valvula.interface';
 
 @Injectable({
   providedIn: 'root'
 })
 export class ValvulasService {
 
-  private open: boolean = false;
-  private _open: BehaviorSubject<boolean>;
+  private valvula: Valvula;
+  private _valvula: BehaviorSubject<Valvula>;
 
   constructor(private readonly controladorService: ControladorService) {
-    this._open = new BehaviorSubject<boolean>(false);
-    this.controladorService.getStatus().subscribe((res) => this.update(res));
+    this.valvula = {
+      id: 0,
+      open: false,
+      date: new Date()
+    };
+    this._valvula = new BehaviorSubject<Valvula>(this.valvula);
+    this.controladorService.getStatus().subscribe((res: Valvula) => this.update(res) );
   }
 
-  OnUpdate() : Observable<boolean> {
-    return this._open.asObservable();
+  OnUpdate() : Observable<Valvula> {
+    return this._valvula.asObservable();
   }
 
-  update(open: boolean) : void {
-    if (this.open != open)
+  update(valvula: Valvula) : void {
+    if (this.valvula != valvula)
     {
-      this.open = open;
-      this._open.next(this.open);
+      this.valvula = valvula;
+      this._valvula.next(this.valvula);
     }
   }
 
-  get() : boolean
+  get() : Valvula
   {
-    return this.open;
+    return this.valvula;
   }
 }

@@ -1,5 +1,6 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
+import { Valvula } from '@core/interfaces/valvula.interface';
 import { Observable } from 'rxjs';
 import { environment } from 'src/environments/environment';
 
@@ -16,8 +17,8 @@ export class ControladorService {
         return this.http.get<boolean>(`${environment.apiUrl}/api/controlador/` + (status ? 'ON' : 'OFF'));
     }
 
-    getStatus() : Observable<boolean> {
-        return this.http.get<boolean>(`${environment.apiUrl}/api/controlador/status`);
+    getStatus() : Observable<Valvula> {
+        return this.http.get<Valvula>(`${environment.apiUrl}/api/controlador/status`);
     }
 
 }

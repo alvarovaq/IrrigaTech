@@ -1,13 +1,13 @@
 <app-toolbar></app-toolbar>
 
 <div class="home-container">
-    <div [class]="'card ' + (status ? 'on' : 'off')">
-        <p class="status">{{status ? "ON" : "OFF"}}</p>
+    <div [class]="'card ' + (valvula.open ? 'on' : 'off')">
+        <p class="status">{{valvula.open ? "ON" : "OFF"}}</p>
         <span class="spacer"></span>
-        <p class="description">{{status ? 'hh:mm:ss' : 'Parado hace XX min'}}</p>
+        <p class="description">{{ (valvula.date | date:'hh:mm a, dd/MM/yy') }}</p>
         <span class="spacer"></span>
-        <button mat-icon-button [color]="status ? 'primary' : 'secondary'" (click)="setStatus(!status)">
-            <mat-icon>{{status ? 'pause' : 'play_arrow'}}</mat-icon>
+        <button mat-icon-button [color]="valvula.open ? 'primary' : 'secondary'" (click)="setStatus(!valvula.open)">
+            <mat-icon>{{valvula.open ? 'pause' : 'play_arrow'}}</mat-icon>
         </button>
     </div> 
 </div>
