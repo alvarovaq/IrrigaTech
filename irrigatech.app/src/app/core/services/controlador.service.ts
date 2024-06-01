@@ -16,4 +16,8 @@ export class ControladorService {
         return this.http.get<boolean>(`${environment.apiUrl}/api/controlador/` + (status ? 'ON' : 'OFF'));
     }
 
+    getStatus() : Observable<boolean> {
+        return this.http.get<boolean>(`${environment.apiUrl}/api/controlador/status`);
+    }
+
 }

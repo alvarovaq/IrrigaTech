@@ -44,9 +44,23 @@ void onMessageReceived(char* topic, byte* payload, unsigned int length) {
 
   Serial.println(message);
 
-  if (message == "ON") {
-    digitalWrite(SignalPin, HIGH);
-  } else if (message == "OFF") {
-    digitalWrite(SignalPin, LOW);
+  bool change = false;
+
+  {
+    int val = digitalRead(SignalPin);
+    if (message == "ON" && val != HIGH) {
+      digitalWrite(SignalPin, HIGH);
+      change = true;
+    } else if (message == "OFF" && val != LOW) {
+      digitalWrite(SignalPin, LOW);
+      change = true;
+    }
+  }
+
+  if (change)
+  {
+    delay(1);
+    int val = digitalRead(SignalPin);
+    mqttCtrl.publish("irrigatech/pull_status", val == HIGH ? "ON" : "OFF");
   }
 }
