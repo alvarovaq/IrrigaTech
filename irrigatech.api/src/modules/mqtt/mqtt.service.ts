@@ -2,6 +2,7 @@ import { Injectable, OnModuleInit } from '@nestjs/common';
 import { connect } from 'mqtt';
 import { error, info } from 'ps-logger';
 import { ValvulasService } from '../valvulas/valvulas.service';
+import { Valvula } from 'src/interfaces/valvula.interface';
 
 @Injectable()
 export class MqttService implements OnModuleInit {
@@ -32,10 +33,16 @@ export class MqttService implements OnModuleInit {
             info("Receive message: " + topic + ": " + message);
             if (topic == "irrigatech/pull_status")
             {
-                if (message == "ON")
-                    this.valvulasService.update(true);
-                else if (message == "OFF")
-                    this.valvulasService.update(false);
+                if (message == "ON" || message == "OFF")
+                {
+                    const status: boolean = message == "ON";
+                    const valvula: Valvula = {
+                        id: 0,
+                        open: status,
+                        date: new Date()
+                    };
+                    this.valvulasService.update(valvula);
+                }
             }
         });
 

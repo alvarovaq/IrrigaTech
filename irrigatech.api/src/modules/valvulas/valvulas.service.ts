@@ -1,32 +1,39 @@
 import { Injectable } from '@nestjs/common';
 import { BehaviorSubject, Observable } from 'rxjs';
+import { Valvula } from 'src/interfaces/valvula.interface';
 
 @Injectable()
 export class ValvulasService {
-    private open: boolean = false;
-    private _open: BehaviorSubject<boolean>;
+    private valvula: Valvula;
+    private _valvula: BehaviorSubject<Valvula>;
 
     constructor() {
-        this._open = new BehaviorSubject<boolean>(false);
+        this.valvula = {
+            id: 0,
+            open: false,
+            date: new Date()
+        };
+        this._valvula = new BehaviorSubject<Valvula>(this.valvula);
     }
 
-    update(open: boolean)
+    update(valvula: Valvula)
     {
-        if (this.open != open)
+        if (this.valvula.open != valvula.open)
         {
-            this.open = open;
-            this._open.next(open);
+            this.valvula = valvula;
+            this._valvula.next(valvula);
+            console.log(this.valvula);
         }
     }
 
-    get(): boolean
+    get(): Valvula
     {
-        return this.open;
+        return this.valvula;
     }
 
-    OnUpdate(): Observable<boolean>
+    OnUpdate(): Observable<Valvula>
     {
-        return this._open.asObservable();
+        return this._valvula.asObservable();
     }
 
 }
