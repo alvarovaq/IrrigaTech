@@ -7,8 +7,14 @@ import { ApiTags } from '@nestjs/swagger';
 export class ControladorController {
   constructor(private readonly controladorService: ControladorService) {}
 
+  @Get('status')
+  getStatus() {
+    return this.controladorService.getStatus();
+  }
+
   @Get(':status')
   findAll(@Param('status') status: string) {
     return this.controladorService.setStatus(status);
   }
+
 }

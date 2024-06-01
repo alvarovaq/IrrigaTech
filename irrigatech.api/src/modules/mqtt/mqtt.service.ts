@@ -1,10 +1,13 @@
 import { Injectable, OnModuleInit } from '@nestjs/common';
 import { connect } from 'mqtt';
 import { error, info } from 'ps-logger';
+import { ValvulasService } from '../valvulas/valvulas.service';
 
 @Injectable()
 export class MqttService implements OnModuleInit {
     private mqttClient;
+
+    constructor (private valvulasService: ValvulasService) {}
 
     onModuleInit() {
         const host = process.env.MQTT_BROKER_ADDRESS;
@@ -12,7 +15,6 @@ export class MqttService implements OnModuleInit {
         const clientId = "SERVER";
 
         const connectUrl = `mqtt://${host}:${port}`;
-        const topic = "irrigatech/push_status";
 
         this.mqttClient = connect(connectUrl, {
             clientId,
@@ -28,6 +30,13 @@ export class MqttService implements OnModuleInit {
 
         this.mqttClient.on('message', (topic, message) => {
             info("Receive message: " + topic + ": " + message);
+            if (topic == "irrigatech/pull_status")
+            {
+                if (message == "ON")
+                    this.valvulasService.update(true);
+                else if (message == "OFF")
+                    this.valvulasService.update(false);
+            }
         });
 
         this.mqttClient.on("error", function () {

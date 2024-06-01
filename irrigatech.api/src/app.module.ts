@@ -4,6 +4,9 @@ import { AppService } from './app.service';
 import { ControladorModule } from './modules/controlador/controlador.module';
 import { MqttModule } from './modules/mqtt/mqtt.module';
 import { ConfigModule } from '@nestjs/config';
+import { SocketModule } from './modules/socket/socket.module';
+import { SocketService } from './modules/socket/socket.service';
+import { ValvulasModule } from './modules/valvulas/valvulas.module';
 
 @Module({
   imports: [
@@ -11,7 +14,7 @@ import { ConfigModule } from '@nestjs/config';
       isGlobal: true, 
       envFilePath: process.env.NODE_ENV === 'production' ? 'environments/.env.production' : 'environments/.env.development'
     }),
-    ControladorModule, MqttModule],
+    ControladorModule, MqttModule, SocketModule, ValvulasModule],
   controllers: [AppController],
   providers: [AppService],
 })
