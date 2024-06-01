@@ -12,28 +12,8 @@ export class AppComponent implements OnInit {
   
   status: boolean = false;
 
-  constructor (
-    private readonly controladorService : ControladorService,
-    private valvulasService: ValvulasService,
-    private receiverService: ReceiverService
-  ) {}
+  constructor () {}
 
-  ngOnInit(): void {
-    this.receiverService.init();
-    this.valvulasService.OnUpdate().subscribe((open: boolean) => {
-      this.status = open;
-    });    
-  }
-
-  setStatus(status : boolean) : void
-  {
-    this.controladorService.setStatus(status)
-    .subscribe(
-      res => {
-      },
-      err => {
-        console.log(err);
-      }
-    );
-  }
+  ngOnInit(): void {}
+  
 }

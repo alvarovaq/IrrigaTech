@@ -1,0 +1,25 @@
+.toolbar
+{
+    margin-bottom: 10px;
+}
+
+.app-title
+{
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    gap: 10px;
+    cursor: pointer;
+    -webkit-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+    user-select: none; 
+}
+
+.app-title img {
+    width: 1.5em;
+}
+
+.example-spacer {
+    flex: 1 1 auto;
+}
