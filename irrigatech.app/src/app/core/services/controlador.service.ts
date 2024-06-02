@@ -13,12 +13,16 @@ export class ControladorService {
         private readonly http : HttpClient
     ) {}
 
-    setStatus (status : boolean) : Observable<boolean> {
-        return this.http.get<boolean>(`${environment.apiUrl}/api/controlador/` + (status ? 'ON' : 'OFF'));
+    setStatus (id: number, status : boolean) : Observable<boolean> {
+        return this.http.get<boolean>(`${environment.apiUrl}/api/controlador/` + (status ? 'ON' : 'OFF') + '/' + id);
     }
 
-    getStatus() : Observable<Valvula> {
-        return this.http.get<Valvula>(`${environment.apiUrl}/api/controlador/status`);
+    getStatus(id: number) : Observable<Valvula> {
+        return this.http.get<Valvula>(`${environment.apiUrl}/api/controlador/status/${id}`);
+    }
+
+    getAllStatus() : Observable<Valvula[]> {
+        return this.http.get<Valvula[]>(`${environment.apiUrl}/api/controlador/status`);
     }
 
 }

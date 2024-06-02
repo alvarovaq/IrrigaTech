@@ -1,13 +1,15 @@
 <app-toolbar></app-toolbar>
 
 <div class="home-container">
-    <div [class]="'card ' + (valvula.open ? 'on' : 'off')">
-        <p class="status">{{valvula.open ? "ON" : "OFF"}}</p>
-        <span class="spacer"></span>
-        <p class="description">{{ (valvula.date | date:'hh:mm a, dd/MM/yy') }}</p>
-        <span class="spacer"></span>
-        <button mat-icon-button [color]="valvula.open ? 'primary' : 'secondary'" (click)="setStatus(!valvula.open)">
-            <mat-icon>{{valvula.open ? 'pause' : 'play_arrow'}}</mat-icon>
-        </button>
+    <div class="test">
+        <div *ngFor="let valvula of valvulas" [class]="'card ' + (valvula.open ? 'on' : 'off')">
+            <p class="status">{{valvula.open ? "ON" : "OFF"}}</p>
+            <span class="spacer"></span>
+            <p class="description">{{ (valvula.date | date:'hh:mm a, dd/MM/yy') }}</p>
+            <span class="spacer"></span>
+            <button mat-icon-button [color]="valvula.open ? 'primary' : 'secondary'" (click)="setStatus(valvula.id, !valvula.open)">
+                <mat-icon>{{valvula.open ? 'pause' : 'play_arrow'}}</mat-icon>
+            </button>
+        </div>
     </div> 
 </div>

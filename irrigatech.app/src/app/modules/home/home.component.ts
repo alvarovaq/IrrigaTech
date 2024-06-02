@@ -10,30 +10,26 @@ import { ValvulasService } from '@core/services/valvulas.service';
   styleUrls: ['./home.component.css']
 })
 export class HomeComponent implements OnInit {
-  valvula: Valvula;
+  valvulas: Valvula[] = [];
 
   constructor (
     private readonly controladorService : ControladorService,
     private valvulasService: ValvulasService,
     private receiverService: ReceiverService
   ) {
-    this.valvula = {
-      id: 0,
-      open: false,
-      date: new Date()
-    };
+    this.valvulas = this.valvulasService.get();
   }
 
   ngOnInit(): void {
     this.receiverService.init();
-    this.valvulasService.OnUpdate().subscribe((valvula: Valvula) => {
-      this.valvula = valvula;
+    this.valvulasService.OnUpdate().subscribe((valvulas: Valvula[]) => {
+      this.valvulas = valvulas;
     });
   }
 
-  setStatus(status : boolean) : void
+  setStatus(id: number, status : boolean) : void
   {
-    this.controladorService.setStatus(status)
+    this.controladorService.setStatus(id, status)
     .subscribe(
       res => {
       },

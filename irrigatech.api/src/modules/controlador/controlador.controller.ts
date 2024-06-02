@@ -8,13 +8,18 @@ export class ControladorController {
   constructor(private readonly controladorService: ControladorService) {}
 
   @Get('status')
-  getStatus() {
-    return this.controladorService.getStatus();
+  getAllStatus() {
+    return this.controladorService.getAllStatus();
   }
 
-  @Get(':status')
-  findAll(@Param('status') status: string) {
-    return this.controladorService.setStatus(status);
+  @Get('status/:id')
+  getStatus(@Param('id') id: number) {
+    return this.controladorService.getStatus(id);
+  }
+
+  @Get(':status/:id')
+  findAll(@Param('status') status: string, @Param('id') id: number) {
+    return this.controladorService.setStatus(id, status);
   }
 
 }

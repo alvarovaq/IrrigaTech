@@ -3,6 +3,7 @@
 #include "config.h"
 #include <time.h>
 #include <climits>
+#include "ValvulasController.hpp"
 
 #define TEMP_SENDSTATUS 60000
 
@@ -10,6 +11,7 @@ const int SignalPin = 2;
 time_t tm_sendstatus = 0;
 
 MqttController mqttCtrl("ESP32_1");
+ValvulasController valvulasCtrl;
 
 void setup() {
   pinMode(SignalPin, OUTPUT);
@@ -17,6 +19,7 @@ void setup() {
   setup_wifi(WIFI_SSID, WIFI_PASSWORD);
   mqttCtrl.connect(MQTT_BROKER_ADDRESS, MQTT_PORT, onMessageReceived);
   mqttCtrl.subscribe("irrigatech/push_status");
+  valvulasCtrl.init();
 }
 
 void loop() {
@@ -27,8 +30,13 @@ void loop() {
   if (diff > TEMP_SENDSTATUS)
   {
     tm_sendstatus = now;
-    int val = digitalRead(SignalPin);
-    mqttCtrl.publish("irrigatech/pull_status", val == HIGH ? "ON" : "OFF");
+    String sValvulas = "";
+    for (int i = 1; i <= 6; i++)
+    {
+      String value = valvulasCtrl.getStatus(i) ? "1" : "0";
+      sValvulas += String(i) + ":" + value + ";";
+    }
+    mqttCtrl.publish("irrigatech/pull_status", sValvulas.c_str());
   }
 }
 
@@ -44,23 +52,34 @@ void onMessageReceived(char* topic, byte* payload, unsigned int length) {
 
   Serial.println(message);
 
-  bool change = false;
+  String actValvulas;
+  int index = -1;
+  int from = 0;
+  do {
+    index = message.indexOf(';', from);
+    String valv;
+    if (index != -1)
+      valv = message.substring(from, index);
+    else
+      valv = message.substring(from);
 
-  {
-    int val = digitalRead(SignalPin);
-    if (message == "ON" && val != HIGH) {
-      digitalWrite(SignalPin, HIGH);
-      change = true;
-    } else if (message == "OFF" && val != LOW) {
-      digitalWrite(SignalPin, LOW);
-      change = true;
+    int indexValv = valv.indexOf(':');
+    if (indexValv != -1)
+    {
+      int id = valv.substring(0, indexValv).toInt();
+      bool open = valv.substring(indexValv + 1) == "1";
+      if (valvulasCtrl.getStatus(id) != open)
+      {
+        valvulasCtrl.setStatus(id, open);
+        actValvulas += valv + ";";
+      }
     }
-  }
 
-  if (change)
+    from = index + 1;
+  } while (index != -1);
+
+  if (actValvulas.length() > 0)
   {
-    delay(1);
-    int val = digitalRead(SignalPin);
-    mqttCtrl.publish("irrigatech/pull_status", val == HIGH ? "ON" : "OFF");
+    mqttCtrl.publish("irrigatech/pull_status", actValvulas.c_str());
   }
 }

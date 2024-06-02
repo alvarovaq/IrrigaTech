@@ -1,23 +1,33 @@
-import { Injectable, Inject } from '@nestjs/common';
-import { MqttService } from '../mqtt/mqtt.service';
+import { Injectable } from '@nestjs/common';
 import { ValvulasService } from '../valvulas/valvulas.service';
 import { Valvula } from 'src/interfaces/valvula.interface';
+import { MqttService } from '../mqtt/mqtt.service';
 
 @Injectable()
 export class ControladorService {
 
   constructor (
-    private readonly mqttService : MqttService,
+    private readonly mqttService: MqttService,
     private readonly valvulasService: ValvulasService
   ) {}
 
-  setStatus(status: string) {
-    this.mqttService.publish("irrigatech/push_status", status);
-    return true;
+  setStatus(id: number, status: string) : boolean {
+    if (status == 'ON' || status == 'OFF')
+    {
+      this.mqttService.send(id, status == 'ON');
+      return true;
+    }
+    
+    return false;
   }
 
-  getStatus() : Valvula {
-    const valvula = this.valvulasService.get();
+  getAllStatus() : Valvula[] {
+    const valvulas = this.valvulasService.get();
+    return valvulas;
+  }
+
+  getStatus(id: number) : Valvula | undefined {
+    const valvula = this.valvulasService.find(id);
     return valvula;
   }
 }

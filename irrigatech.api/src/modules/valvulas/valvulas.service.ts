@@ -4,36 +4,47 @@ import { Valvula } from 'src/interfaces/valvula.interface';
 
 @Injectable()
 export class ValvulasService {
-    private valvula: Valvula;
-    private _valvula: BehaviorSubject<Valvula>;
+    private valvulas: Valvula[] = [];
+    private _valvulas: BehaviorSubject<Valvula[]>;
 
     constructor() {
-        this.valvula = {
-            id: 0,
-            open: false,
-            date: new Date()
-        };
-        this._valvula = new BehaviorSubject<Valvula>(this.valvula);
-    }
-
-    update(valvula: Valvula)
-    {
-        if (this.valvula.open != valvula.open)
+        const date = new Date();
+        for (let id = 1; id <= 6; id++)
         {
-            this.valvula = valvula;
-            this._valvula.next(valvula);
-            console.log(this.valvula);
+            let valvula : Valvula = { id, open: false, date };
+            this.valvulas.push(valvula);
         }
+        this._valvulas = new BehaviorSubject<Valvula[]>([]);
     }
 
-    get(): Valvula
+    update(valvulas: Valvula[]) : void
     {
-        return this.valvula;
+        let updValvulas: Valvula[] = [];
+        for (const valv of valvulas)
+        {
+            const index = this.valvulas.findIndex((v) => v.id == valv.id);
+            if (index != -1 && this.valvulas[index].open != valv.open)
+            {
+                this.valvulas[index] = valv;
+                updValvulas.push(valv);
+            }
+        }
+        this._valvulas.next(updValvulas);
     }
 
-    OnUpdate(): Observable<Valvula>
+    find(id: number): Valvula | undefined
     {
-        return this._valvula.asObservable();
+        return this.valvulas.find((valv) => valv.id == id);
+    }
+
+    OnUpdate(): Observable<Valvula[]>
+    {
+        return this._valvulas.asObservable();
+    }
+
+    get(): Valvula[]
+    {
+        return this.valvulas;
     }
 
 }

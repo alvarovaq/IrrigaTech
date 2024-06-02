@@ -24,8 +24,8 @@ export class SocketService implements OnModuleInit, OnGatewayInit, OnGatewayConn
   constructor (private valvulasService: ValvulasService) {}
 
   onModuleInit() {
-    this.valvulasService.OnUpdate().subscribe((valvula: Valvula) => {
-      this.sendMessage('updateStatus', valvula);
+    this.valvulasService.OnUpdate().subscribe((valvulas: Valvula[]) => {
+      this.sendMessage('updateStatus', valvulas);
     });
   }
 

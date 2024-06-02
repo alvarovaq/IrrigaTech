@@ -24,8 +24,8 @@ export class ReceiverService {
       console.log('Disconnected from WebSocket server');
     });
   
-    this.socketService.onMessage('updateStatus').subscribe((valvula: Valvula) => {
-      this.valvulasService.update(valvula);
+    this.socketService.onMessage('updateStatus').subscribe((valvulas: Valvula[]) => {
+      this.valvulasService.update(valvulas);
     });
   }
 }

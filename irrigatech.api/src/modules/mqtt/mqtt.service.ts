@@ -8,7 +8,9 @@ import { Valvula } from 'src/interfaces/valvula.interface';
 export class MqttService implements OnModuleInit {
     private mqttClient;
 
-    constructor (private valvulasService: ValvulasService) {}
+    constructor (
+        private valvulasService: ValvulasService
+    ) {}
 
     onModuleInit() {
         const host = process.env.MQTT_BROKER_ADDRESS;
@@ -29,20 +31,12 @@ export class MqttService implements OnModuleInit {
             this.subscribe('irrigatech/pull_status');
         });
 
-        this.mqttClient.on('message', (topic, message) => {
+        this.mqttClient.on('message', (topic: string, message: string) => {
             info("Receive message: " + topic + ": " + message);
             if (topic == "irrigatech/pull_status")
             {
-                if (message == "ON" || message == "OFF")
-                {
-                    const status: boolean = message == "ON";
-                    const valvula: Valvula = {
-                        id: 0,
-                        open: status,
-                        date: new Date()
-                    };
-                    this.valvulasService.update(valvula);
-                }
+                const valvulas: Valvula[] = this.parser(message.toString());
+                this.valvulasService.update(valvulas);
             }
         });
 
@@ -61,6 +55,26 @@ export class MqttService implements OnModuleInit {
         info(`Subscribe to topic ${topic}`);
         const pattern = { cmd: 'subscribe', topic };
         return this.mqttClient.send(pattern, {});
+    }
+
+    send(id: number, open: boolean) : void {
+        this.publish('irrigatech/push_status', `${id}:${open ? '1' : '0'}`);
+    }
+
+    parser(msg: string) : Valvula[] {
+        let valvulas: Valvula[] = [];
+        const date = new Date();
+        for (const valv of msg.split(';'))
+        {
+            const status = valv.split(':');
+            if (status.length != 2)
+                continue;
+            const id: number = parseInt(status[0]);
+            const open: boolean = status[1] == '1';
+            const valvula: Valvula = { id, open, date };
+            valvulas.push(valvula);
+        }
+        return valvulas;
     }
 
 }

@@ -5,7 +5,6 @@ import { ControladorModule } from './modules/controlador/controlador.module';
 import { MqttModule } from './modules/mqtt/mqtt.module';
 import { ConfigModule } from '@nestjs/config';
 import { SocketModule } from './modules/socket/socket.module';
-import { SocketService } from './modules/socket/socket.service';
 import { ValvulasModule } from './modules/valvulas/valvulas.module';
 
 @Module({
