@@ -30,15 +30,15 @@ export class SocketService implements OnModuleInit, OnGatewayInit, OnGatewayConn
   }
 
   afterInit(server: Server) {
-    console.log('WebSocket initialized');
+    info('WebSocket initialized');
   }
 
   handleConnection(client: Socket, ...args: any[]) {
-    console.log(`Client connected: ${client.id}`);
+    info(`Client connected: ${client.id}`);
   }
 
   handleDisconnect(client: Socket) {
-    console.log(`Client disconnected: ${client.id}`);
+    info(`Client disconnected: ${client.id}`);
   }
 
   sendMessage(ev: string, msg: any)
