@@ -21,44 +21,15 @@
 .page-valv {
     box-sizing: border-box;
     width: 100%;
-    padding: 20px;
+    padding: 20px 10px;
     margin: 0;
     display: flex;
-    flex-direction: row;
+    flex-direction: column;
     justify-content: center;
     align-items: center;
 }
 
-.card {
-    display: flex;
-    flex-direction: row;
-    justify-content: center;
-    align-items: center;
-    width: 400px;
+.manualcard {
+    width: 100%;
     max-width: 400px;
-    padding: 5px 10px 5px 20px;
-    border-radius: 20px;
-    box-shadow: 5px 5px 10px 1px rgba(0, 0, 0, 0.2);
-}
-
-.card .status
-{
-    font-size: 24px;
-}
-
-.card.on .status{
-    color: #4af735;
-}
-
-.card.off .status
-{
-    color: #f74135;
-}
-
-.card p {
-    margin: 0;
-}
-
-.card .description {
-    color: grey;
 }

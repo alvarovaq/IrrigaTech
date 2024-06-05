@@ -26,16 +26,4 @@ export class HomeComponent implements OnInit {
       this.valvulas = valvulas;
     });
   }
-
-  setStatus(id: number, status : boolean) : void
-  {
-    this.controladorService.setStatus(id, status)
-    .subscribe(
-      res => {
-      },
-      err => {
-        console.log(err);
-      }
-    );
-  }
 }
