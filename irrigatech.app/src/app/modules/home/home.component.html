@@ -1,15 +1,23 @@
 <app-toolbar></app-toolbar>
 
 <div class="home-container">
-    <div class="test">
-        <div *ngFor="let valvula of valvulas" [class]="'card ' + (valvula.open ? 'on' : 'off')">
-            <p class="status">{{valvula.open ? "ON" : "OFF"}}</p>
-            <span class="spacer"></span>
-            <p class="description">{{ (valvula.date | date:'hh:mm a, dd/MM/yy') }}</p>
-            <span class="spacer"></span>
-            <button mat-icon-button [color]="valvula.open ? 'primary' : 'secondary'" (click)="setStatus(valvula.id, !valvula.open)">
-                <mat-icon>{{valvula.open ? 'pause' : 'play_arrow'}}</mat-icon>
-            </button>
-        </div>
-    </div> 
+    <mat-tab-group animationDuration="0ms" class="tab-valv" mat-stretch-tabs>
+        <mat-tab *ngFor="let valvula of valvulas">
+            <ng-template mat-tab-label class="tab-label">
+                <div class="circle" *ngIf="valvula.open"></div>
+                {{valvula.id}}
+            </ng-template>
+            <div class="page-valv">
+                <div [class]="'card ' + (valvula.open ? 'on' : 'off')">
+                    <p class="status">{{valvula.open ? "ON" : "OFF"}}</p>
+                    <span class="spacer"></span>
+                    <p class="description">{{ (valvula.date | date:'hh:mm a, dd/MM/yy') }}</p>
+                    <span class="spacer"></span>
+                    <button mat-icon-button [color]="valvula.open ? 'primary' : 'secondary'" (click)="setStatus(valvula.id, !valvula.open)">
+                        <mat-icon>{{valvula.open ? 'pause' : 'play_arrow'}}</mat-icon>
+                    </button>
+                </div>
+            </div>
+        </mat-tab> 
+    </mat-tab-group>
 </div>
