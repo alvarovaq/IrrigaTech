@@ -19,7 +19,6 @@ export class ValvulasService {
         this.valvulas.push(valvula);
     }
     this._valvulas = new BehaviorSubject<Valvula[]>([]);
-    this.controladorService.getAllStatus().subscribe((res: Valvula[]) => { console.log(res); this.update(res); } );
   }
 
   OnUpdate() : Observable<Valvula[]> {
