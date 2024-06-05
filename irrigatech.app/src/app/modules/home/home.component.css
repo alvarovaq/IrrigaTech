@@ -33,3 +33,84 @@
     width: 100%;
     max-width: 400px;
 }
+
+.title-programas {
+    font-size: 1.4em;
+    margin: 30px 0 20px 0;
+}
+
+.programs-list
+{
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+}
+
+.program-item {
+    box-sizing: border-box;
+    width: 100%;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+    padding: 10px 5px;
+    border-bottom: 1px solid grey;
+}
+
+.program-item:hover {
+    background-color: rgba(0, 0, 0, 0.05);
+}
+
+.program-item p {
+    margin: 0;
+}
+
+.program-item-params {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    gap: 2px;
+}
+
+.program-item-param {
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+    gap: 15px;
+}
+
+.program-item-param-icon {
+    font-size: 1.3em;
+}
+
+.program-item-param-value {
+    font-size: 1.1em;
+}
+
+.program-item-day {
+    font-size: 2.5em;
+}
+
+.program-item-icon-button-edit {
+    color: grey;
+}
+
+.program-item-icon-button-delete {
+    color: #f74135;
+}
+
+.add-program {
+    margin-top: 30px;
+    width: 60px;
+    height: 60px;
+}
+
+.add-program mat-icon {
+    width: 35px;
+    height: 35px;
+    font-size: 35px;
+}
