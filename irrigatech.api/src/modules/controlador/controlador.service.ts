@@ -1,7 +1,7 @@
 import { Injectable } from '@nestjs/common';
 import { ValvulasService } from '../valvulas/valvulas.service';
 import { Valvula } from 'src/interfaces/valvula.interface';
-import { ConnectorService } from '../connector/connector.service';
+import { ConnectorService } from '../mqtt/connector.service';
 
 @Injectable()
 export class ControladorService {

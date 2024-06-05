@@ -1,5 +1,5 @@
 import { Injectable, OnModuleInit } from '@nestjs/common';
-import { MqttService } from '../mqtt/mqtt.service';
+import { MqttService } from './mqtt.service';
 import { info } from 'ps-logger';
 import { Valvula } from 'src/interfaces/valvula.interface';
 import { ValvulasService } from '../valvulas/valvulas.service';
