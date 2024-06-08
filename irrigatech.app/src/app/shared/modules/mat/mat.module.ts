@@ -10,7 +10,8 @@ import {MatListModule} from '@angular/material/list';
 import {MatFormFieldModule} from '@angular/material/form-field'; 
 import {MatInputModule} from '@angular/material/input';
 import {MatSelectModule} from '@angular/material/select';
-import {MatSliderModule} from '@angular/material/slider'; 
+import {MatSliderModule} from '@angular/material/slider'
+import {MatProgressSpinnerModule} from '@angular/material/progress-spinner'; 
 
 const MatModules = [
   MatToolbarModule,
@@ -23,7 +24,8 @@ const MatModules = [
   MatFormFieldModule,
   MatInputModule,
   MatSelectModule,
-  MatSliderModule
+  MatSliderModule,
+  MatProgressSpinnerModule
 ];
 
 @NgModule({

@@ -4,6 +4,8 @@ import { Programa } from '@core/interfaces/programa.interface';
 import { Valvula } from '@core/interfaces/valvula.interface';
 import { DialogProgramComponent } from '../dialog-program/dialog-program.component';
 import { ProgramasService } from '../../../../core/services/programas.service';
+import { finalize } from 'rxjs';
+import { LoaderService } from '@core/services/loader.service';
 
 @Component({
   selector: 'app-valvula-view',
@@ -16,7 +18,8 @@ export class ValvulaViewComponent implements OnInit {
 
   constructor(
     public dialogProgram: MatDialog,
-    private readonly programasService: ProgramasService
+    private readonly programasService: ProgramasService,
+    private readonly loaderService: LoaderService
   ) {
     this.valvula = {
       id: 0,
@@ -40,7 +43,12 @@ export class ValvulaViewComponent implements OnInit {
     dialogRef.afterClosed().subscribe(programa => {
       if (programa)
       {
-        this.programasService.crearPrograma(programa).subscribe((prog) => {
+        this.loaderService.isLoading.next(true);
+        this.programasService.crearPrograma(programa)
+        .pipe(finalize(() => {
+          this.loaderService.isLoading.next(false);
+        }))
+        .subscribe((prog) => {
           this.programas.push(prog);
           this.sortProgramas();
         });

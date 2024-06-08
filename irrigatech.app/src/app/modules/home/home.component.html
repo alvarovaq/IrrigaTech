@@ -1,5 +1,9 @@
 <app-toolbar></app-toolbar>
 
+<div class="spinner" *ngIf="loading">
+    <mat-spinner diameter="50"></mat-spinner>
+</div>
+
 <div class="home-container">
     <mat-tab-group animationDuration="0ms" class="tab-valv" mat-stretch-tabs>
         <mat-tab *ngFor="let valvula of valvulas">
