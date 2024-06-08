@@ -2,7 +2,8 @@ import { Component, Inject } from '@angular/core';
 import { AbstractControl, FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
 import { Weekday } from '@core/enums/weekday';
-import { Program } from '@core/interfaces/program.interface';
+import { Programa } from '@core/interfaces/programa.interface';
+import { Tiempo } from '@core/interfaces/tiempo.interface';
 
 @Component({
   selector: 'app-dialog-program',
@@ -15,7 +16,7 @@ export class DialogProgramComponent {
 
   constructor (
     public dialogRef: MatDialogRef<DialogProgramComponent>,
-    @Inject(MAT_DIALOG_DATA) public data: Program | undefined,
+    @Inject(MAT_DIALOG_DATA) public data: { valvula: number } | undefined,
     private fb: FormBuilder
   ) {
     this.programForm = this.fb.group({
@@ -39,13 +40,13 @@ export class DialogProgramComponent {
     this.dialogRef.close();
   }
 
-  getHour(): Date {
+  getHour(): Tiempo {
     const parts = this.programForm.get('hour')?.value.split(':');
-    const date = new Date(0, 0, 0);
-    date.setHours(parseInt(parts[0]));
-    date.setMinutes(parseInt(parts[1]));
-    date.setSeconds(0);
-    return date;
+    let hora : Tiempo = {
+      hora: parseInt(parts[0]),
+      minuto: parseInt(parts[1])
+    };
+    return hora;
   }
 
   getDuration(): number {
@@ -55,15 +56,17 @@ export class DialogProgramComponent {
     return seconds;
   }
 
-  getProgram(): Program | undefined {
+  getPrograma(): Programa | undefined {
     return {
+      id: "",
+      valvula: this.data ? this.data.valvula : 0,
       weekday: this.programForm.get('weekday')?.value,
-      hour: this.getHour(),
-      duration: this.getDuration()
+      hora: this.getHour(),
+      duracion: this.getDuration()
     };
   }
 
   save(): void {
-    this.dialogRef.close(this.getProgram());
+    this.dialogRef.close(this.getPrograma());
   }
 }

@@ -4,7 +4,7 @@ import { Valvula } from '@core/interfaces/valvula.interface';
 import { ReceiverService } from '@core/services/receiver.service';
 import { ValvulasService } from '@core/services/valvulas.service';
 import { DialogProgramComponent } from './components/dialog-program/dialog-program.component';
-import { Program } from '@core/interfaces/program.interface';
+import { Programa } from '@core/interfaces/programa.interface';
 import { Weekday } from '@core/enums/weekday';
 
 @Component({
@@ -14,7 +14,6 @@ import { Weekday } from '@core/enums/weekday';
 })
 export class HomeComponent implements OnInit {
   valvulas: Valvula[] = [];
-  program: Program;
 
   constructor (
     private valvulasService: ValvulasService,
@@ -22,11 +21,6 @@ export class HomeComponent implements OnInit {
     public dialogProgram: MatDialog
   ) {
     this.valvulas = this.valvulasService.get();
-    this.program = {
-      weekday: Weekday.Lunes,
-      hour: new Date(),
-      duration: 120
-    }
   }
 
   ngOnInit(): void {
