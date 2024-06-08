@@ -6,12 +6,16 @@ import { MatModule } from '@shared/modules/mat/mat.module';
 import { ManualCardComponent } from './components/manual-card/manual-card.component';
 import { DialogProgramComponent } from './components/dialog-program/dialog-program.component';
 import { ReactiveFormsModule } from '@angular/forms';
+import { ProgramItemComponent } from './components/program-item/program-item.component';
+import { ValvulaViewComponent } from './components/valvula-view/valvula-view.component';
 
 @NgModule({
   declarations: [
     HomeComponent,
     ManualCardComponent,
-    DialogProgramComponent
+    DialogProgramComponent,
+    ProgramItemComponent,
+    ValvulaViewComponent
   ],
   imports: [
     CommonModule,

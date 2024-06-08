@@ -1,0 +1,11 @@
+<div class="page-valv">
+    <h2>Válvula {{valvula.id}}</h2>
+    <app-manual-card class="manualcard" [valvula]="valvula" />
+    <p class="title-programas">Programas</p>
+    <div class="programs-list">
+        <app-program-item class="program-item" [program]="program" *ngFor="let program of programs"></app-program-item>
+        <button mat-fab color="primary" class="add-program" (click)="createProgram()">
+            <mat-icon>add</mat-icon>
+        </button>  
+    </div>                
+</div>

@@ -1,0 +1,21 @@
+<div class="program-item">
+    <p class="program-item-day">{{getWeekday(program?.weekday)}}</p>
+    <div class="program-item-params">
+        <div class="program-item-param">
+            <mat-icon class="program-item-param-icon" fontIcon="schedule"></mat-icon>
+            <p class="program-item-param-value">{{formatHour(program?.hour)}}</p>
+        </div>
+        <div class="program-item-param">
+            <mat-icon class="program-item-param-icon" fontIcon="hourglass_empty"></mat-icon>
+            <p class="program-item-param-value">{{formatDuration(program?.duration)}}</p>
+        </div>
+    </div>
+    <div class="program-item-buttons">
+        <button mat-icon-button>
+          <mat-icon class="program-item-icon-button-edit">edit</mat-icon>
+        </button>
+        <button mat-icon-button>
+          <mat-icon class="program-item-icon-button-delete">delete</mat-icon>
+        </button>
+    </div>
+</div>

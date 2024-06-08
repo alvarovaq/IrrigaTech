@@ -45,7 +45,7 @@
         <p>{{programForm.get('durationSec')?.value}} s</p>
       </div>
       <div mat-dialog-actions class="buttons">
-        <button mat-button mat-dialog-save class="button-save" color="primary" [disabled]="programForm.invalid">Guardar</button>
+        <button mat-button mat-dialog-save class="button-save" color="primary" [disabled]="programForm.invalid" (click)="save()">Guardar</button>
         <button mat-button mat-dialog-close class="button-close" (click)="close()">Cerrar</button>
       </div>
     </form>
