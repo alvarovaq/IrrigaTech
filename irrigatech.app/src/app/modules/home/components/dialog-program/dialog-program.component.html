@@ -1,0 +1,53 @@
+<div class="dialog-program">
+  <h1 mat-dialog-title>Crear programa</h1>
+  <div mat-dialog-content class="dialog-program-content">
+    <form [formGroup]="programForm">
+      <mat-form-field class="example-full-width">
+        <mat-label>Día de la semana</mat-label>
+        <mat-select formControlName="weekday">
+            <mat-option [value]="enumWeekday.Lunes">Lunes</mat-option>
+            <mat-option [value]="enumWeekday.Martes">Martes</mat-option>
+            <mat-option [value]="enumWeekday.Miercoles">Miércoles</mat-option>
+            <mat-option [value]="enumWeekday.Jueves">Jueves</mat-option>
+            <mat-option [value]="enumWeekday.Viernes">Viernes</mat-option>
+            <mat-option [value]="enumWeekday.Sabado">Sábado</mat-option>
+            <mat-option [value]="enumWeekday.Domingo">Domingo</mat-option>
+        </mat-select>
+      </mat-form-field>
+      <mat-form-field appearance="fill">
+        <mat-label>Hora</mat-label>
+        <input matInput placeholder="HH:MM" formControlName="hour">
+        <mat-error *ngIf="programForm.get('hour')?.invalid && programForm.get('hour')?.touched">
+          Formato inválido
+        </mat-error>
+        <mat-icon matSuffix>schedule</mat-icon>
+      </mat-form-field>
+      <div class="title-duration">
+        <mat-icon>hourglass_empty</mat-icon>
+        <p>Duración</p>
+      </div>
+      <div class="slider-input">
+        <mat-slider [max]="23">
+          <input matSliderThumb formControlName="durationHour">
+        </mat-slider>
+        <p>{{programForm.get('durationHour')?.value}} h</p>
+      </div>
+      <div class="slider-input">
+        <mat-slider [max]="59">
+          <input matSliderThumb formControlName="durationMin">
+        </mat-slider>
+        <p>{{programForm.get('durationMin')?.value}} m</p>
+      </div>
+      <div class="slider-input">
+        <mat-slider [max]="59">
+          <input matSliderThumb formControlName="durationSec">
+        </mat-slider>
+        <p>{{programForm.get('durationSec')?.value}} s</p>
+      </div>
+      <div mat-dialog-actions class="buttons">
+        <button mat-button mat-dialog-save class="button-save" color="primary" [disabled]="programForm.invalid">Guardar</button>
+        <button mat-button mat-dialog-close class="button-close" (click)="close()">Cerrar</button>
+      </div>
+    </form>
+  </div>
+</div>

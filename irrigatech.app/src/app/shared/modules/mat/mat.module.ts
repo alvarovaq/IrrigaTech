@@ -6,8 +6,11 @@ import {MatButtonModule} from '@angular/material/button';
 import {MatTabsModule} from '@angular/material/tabs'; 
 import {MatBadgeModule} from '@angular/material/badge'; 
 import {MatProgressBarModule} from '@angular/material/progress-bar';
-import {MatListModule} from '@angular/material/list'; 
-import {MatMenuModule} from '@angular/material/menu'; 
+import {MatListModule} from '@angular/material/list';
+import {MatFormFieldModule} from '@angular/material/form-field'; 
+import {MatInputModule} from '@angular/material/input';
+import {MatSelectModule} from '@angular/material/select';
+import {MatSliderModule} from '@angular/material/slider'; 
 
 const MatModules = [
   MatToolbarModule,
@@ -17,7 +20,10 @@ const MatModules = [
   MatBadgeModule,
   MatProgressBarModule,
   MatListModule,
-  MatMenuModule
+  MatFormFieldModule,
+  MatInputModule,
+  MatSelectModule,
+  MatSliderModule
 ];
 
 @NgModule({
