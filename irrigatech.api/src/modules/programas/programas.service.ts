@@ -1,4 +1,4 @@
-import { Injectable } from '@nestjs/common';
+import { Injectable, NotFoundException } from '@nestjs/common';
 import { Programa } from './schema/programa.schema';
 import { InjectModel } from '@nestjs/mongoose';
 import { Model } from 'mongoose';
@@ -13,7 +13,9 @@ export class ProgramasService {
 
     async find(valvula: number)
     {
-        return await this.programaModel.find({ valvula });
+        const prog = await this.programaModel.find({ valvula });
+        if (!prog) throw new NotFoundException('No se ha podido encontrar el programa');
+        return prog;
     }
 
     async create(programaDto: ProgramaDto)
@@ -23,4 +25,10 @@ export class ProgramasService {
         return prog;
     }
 
+    async update(programaDto: ProgramaDto)
+    {
+        const updateProg = await this.programaModel.findOneAndUpdate({ id: programaDto.id }, programaDto, { new: true });
+        if (!updateProg) throw new NotFoundException('No se ha podido encontrar el programa');
+        return updateProg;
+    }
 }

@@ -1,4 +1,4 @@
-import { Component, Input } from '@angular/core';
+import { Component, EventEmitter, Input, Output } from '@angular/core';
 import { Weekday } from '@core/enums/weekday';
 import { Programa } from '@core/interfaces/programa.interface';
 import { Tiempo } from '@core/interfaces/tiempo.interface';
@@ -10,6 +10,7 @@ import { Tiempo } from '@core/interfaces/tiempo.interface';
 })
 export class ProgramItemComponent {
   @Input() programa: Programa | undefined;
+  @Output() edit = new EventEmitter<Programa>();
 
   getWeekday(weekday: Weekday | undefined): String {
     if (weekday == undefined)
@@ -54,5 +55,9 @@ export class ProgramItemComponent {
     const minutes = String(Math.floor((totalSeconds % 3600) / 60)).padStart(2, '0');
     const seconds = String(Math.floor(totalSeconds % 60)).padStart(2, '0');
     return `${hours}:${minutes}:${seconds}`;
+  }
+
+  onEdit(): void {
+    this.edit.emit(this.programa);
   }
 }

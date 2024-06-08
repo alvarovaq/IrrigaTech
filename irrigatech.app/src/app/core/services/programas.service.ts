@@ -21,4 +21,8 @@ export class ProgramasService {
     crearPrograma(programa: Programa) : Observable<Programa> {
         return this.http.post<Programa>(`${environment.apiUrl}/api/programas/create`, programa);
     }
+
+    editarPrograma(programa: Programa) : Observable<Programa> {
+        return this.http.post<Programa>(`${environment.apiUrl}/api/programas/update`, programa);
+    }
 }

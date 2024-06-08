@@ -1,5 +1,5 @@
 <div class="dialog-program">
-  <h1 mat-dialog-title>Crear programa</h1>
+  <h1 mat-dialog-title>{{data && !data.new ? 'Editar' : 'Crear'}} programa</h1>
   <div mat-dialog-content class="dialog-program-content">
     <form [formGroup]="programForm">
       <mat-form-field class="example-full-width">

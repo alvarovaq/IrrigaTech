@@ -17,4 +17,9 @@ export class ProgramasController {
     async create(@Body() programaDto: ProgramaDto) {
         return await this.programasService.create(programaDto);
     }
+
+    @Post('update')
+    async update(@Body() programaDto: ProgramaDto) {
+        return await this.programasService.update(programaDto);
+    }
 }

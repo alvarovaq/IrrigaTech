@@ -2,7 +2,7 @@ import { Component, Input, OnInit } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { Programa } from '@core/interfaces/programa.interface';
 import { Valvula } from '@core/interfaces/valvula.interface';
-import { DialogProgramComponent } from '../dialog-program/dialog-program.component';
+import { DataDialogProgram, DialogProgramComponent } from '../dialog-program/dialog-program.component';
 import { ProgramasService } from '../../../../core/services/programas.service';
 import { finalize } from 'rxjs';
 import { LoaderService } from '@core/services/loader.service';
@@ -31,12 +31,19 @@ export class ValvulaViewComponent implements OnInit {
   ngOnInit(): void {
     this.programasService.getProgramas(this.valvula.id).subscribe((programas) => {
       this.programas = programas;
+      this.sortProgramas();
     });
   }
 
-  createProgram(): void {
+  crearPrograma(): void {
+    const data: DataDialogProgram = {
+      valvula: this.valvula.id,
+      new: true,
+      programa: undefined
+    };
+
     const dialogRef = this.dialogProgram.open(DialogProgramComponent, {
-      data: { valvula: this.valvula.id },
+      data,
       width: '1000px',
     });
 
@@ -50,6 +57,38 @@ export class ValvulaViewComponent implements OnInit {
         }))
         .subscribe((prog) => {
           this.programas.push(prog);
+          this.sortProgramas();
+        });
+      }
+    });
+  }
+
+  editarPrograma(programa: Programa): void {
+    console.log(programa);
+    const data: DataDialogProgram = {
+      valvula: this.valvula.id,
+      new: false,
+      programa: programa
+    };
+
+    const dialogRef = this.dialogProgram.open(DialogProgramComponent, {
+      data,
+      width: '1000px',
+    });
+
+    dialogRef.afterClosed().subscribe(programa => {
+      if (programa)
+      {
+        this.loaderService.isLoading.next(true);
+        this.programasService.editarPrograma(programa)
+        .pipe(finalize(() => {
+          this.loaderService.isLoading.next(false);
+        }))
+        .subscribe((prog) => {
+          const index = this.programas.findIndex(p => p.id == prog.id);
+          console.log(index);
+          if (index !== -1)
+            this.programas[index] = prog;
           this.sortProgramas();
         });
       }

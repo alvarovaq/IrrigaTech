@@ -5,6 +5,12 @@ import { Weekday } from '@core/enums/weekday';
 import { Programa } from '@core/interfaces/programa.interface';
 import { Tiempo } from '@core/interfaces/tiempo.interface';
 
+export interface DataDialogProgram {
+  valvula: number,
+  new: boolean,
+  programa: Programa | undefined
+}
+
 @Component({
   selector: 'app-dialog-program',
   templateUrl: './dialog-program.component.html',
@@ -16,16 +22,35 @@ export class DialogProgramComponent {
 
   constructor (
     public dialogRef: MatDialogRef<DialogProgramComponent>,
-    @Inject(MAT_DIALOG_DATA) public data: { valvula: number } | undefined,
+    @Inject(MAT_DIALOG_DATA) public data: DataDialogProgram | undefined,
     private fb: FormBuilder
   ) {
+    let hours: number = 0;
+    let min: number = 0;
+    let sec: number = 0;
+
+    if (this.data && !this.data.new)
+    {
+      const duracion: number = this.data.programa?.duracion!;
+      hours = Math.floor(duracion / 3600);
+      min = Math.floor((duracion % 3600) / 60);
+      sec = Math.floor(duracion % 60);
+    }
+
     this.programForm = this.fb.group({
-      weekday: [Weekday.Lunes, [Validators.required]],
-      hour: ['', [Validators.required, this.timeValidator]],
-      durationHour: [0, []],
-      durationMin: [10, []],
-      durationSec: [0, []],
+      weekday: [this.data && !this.data.new ? this.data.programa?.weekday : Weekday.Lunes, [Validators.required]],
+      hour: [this.data && !this.data.new ? this.getStringHora(this.data.programa?.hora!) : '', [Validators.required, this.timeValidator]],
+      durationHour: [hours, []],
+      durationMin: [min, []],
+      durationSec: [sec, []],
     });
+  }
+
+  getStringHora(hora: Tiempo) : string {
+    const hours = String(hora.hora).padStart(2, '0');
+    const minutes = String(hora.minuto).padStart(2, '0');
+
+    return `${hours}:${minutes}`;
   }
 
   timeValidator(control: AbstractControl) : { [key: string]: boolean } | null {
@@ -57,9 +82,12 @@ export class DialogProgramComponent {
   }
 
   getPrograma(): Programa | undefined {
+    if (!this.data || !this.data.programa)
+      return undefined;
+    
     return {
-      id: "",
-      valvula: this.data ? this.data.valvula : 0,
+      id: this.data.programa.id,
+      valvula: this.data.valvula,
       weekday: this.programForm.get('weekday')?.value,
       hora: this.getHour(),
       duracion: this.getDuration()
