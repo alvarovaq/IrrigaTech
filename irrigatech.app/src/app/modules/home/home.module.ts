@@ -8,6 +8,7 @@ import { DialogProgramComponent } from './components/dialog-program/dialog-progr
 import { ReactiveFormsModule } from '@angular/forms';
 import { ProgramItemComponent } from './components/program-item/program-item.component';
 import { ValvulaViewComponent } from './components/valvula-view/valvula-view.component';
+import { DialogRemoveProgramComponent } from './components/dialog-remove-program/dialog-remove-program.component';
 
 @NgModule({
   declarations: [
@@ -15,7 +16,8 @@ import { ValvulaViewComponent } from './components/valvula-view/valvula-view.com
     ManualCardComponent,
     DialogProgramComponent,
     ProgramItemComponent,
-    ValvulaViewComponent
+    ValvulaViewComponent,
+    DialogRemoveProgramComponent
   ],
   imports: [
     CommonModule,

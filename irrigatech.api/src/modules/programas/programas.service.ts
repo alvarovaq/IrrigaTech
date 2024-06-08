@@ -31,4 +31,11 @@ export class ProgramasService {
         if (!updateProg) throw new NotFoundException('No se ha podido encontrar el programa');
         return updateProg;
     }
+
+    async remove(id: string)
+    {
+        const remProg = await this.programaModel.findOneAndDelete({ id });
+        if (!remProg) throw new NotFoundException('No se ha podido encontrar el programa');
+        return remProg;
+    }
 }

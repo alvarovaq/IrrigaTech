@@ -11,6 +11,7 @@ import { Tiempo } from '@core/interfaces/tiempo.interface';
 export class ProgramItemComponent {
   @Input() programa: Programa | undefined;
   @Output() edit = new EventEmitter<Programa>();
+  @Output() remove = new EventEmitter<Programa>();
 
   getWeekday(weekday: Weekday | undefined): String {
     if (weekday == undefined)
@@ -59,5 +60,9 @@ export class ProgramItemComponent {
 
   onEdit(): void {
     this.edit.emit(this.programa);
+  }
+
+  onRemove(): void {
+    this.remove.emit(this.programa);
   }
 }

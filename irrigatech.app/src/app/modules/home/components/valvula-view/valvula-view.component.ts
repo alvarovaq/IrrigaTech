@@ -6,6 +6,7 @@ import { DataDialogProgram, DialogProgramComponent } from '../dialog-program/dia
 import { ProgramasService } from '../../../../core/services/programas.service';
 import { finalize } from 'rxjs';
 import { LoaderService } from '@core/services/loader.service';
+import { DialogRemoveProgramComponent } from '../dialog-remove-program/dialog-remove-program.component';
 
 @Component({
   selector: 'app-valvula-view',
@@ -47,7 +48,7 @@ export class ValvulaViewComponent implements OnInit {
       width: '1000px',
     });
 
-    dialogRef.afterClosed().subscribe(programa => {
+    dialogRef.afterClosed().subscribe((programa: Programa | undefined) => {
       if (programa)
       {
         this.loaderService.isLoading.next(true);
@@ -76,7 +77,7 @@ export class ValvulaViewComponent implements OnInit {
       width: '1000px',
     });
 
-    dialogRef.afterClosed().subscribe(programa => {
+    dialogRef.afterClosed().subscribe((programa: Programa | undefined) => {
       if (programa)
       {
         this.loaderService.isLoading.next(true);
@@ -90,6 +91,26 @@ export class ValvulaViewComponent implements OnInit {
           if (index !== -1)
             this.programas[index] = prog;
           this.sortProgramas();
+        });
+      }
+    });
+  }
+
+  eliminarPrograma(programa: Programa) {
+    const dialogRef = this.dialogProgram.open(DialogRemoveProgramComponent);
+
+    dialogRef.afterClosed().subscribe((res: boolean) => {
+      if (res)
+      {
+        this.loaderService.isLoading.next(true);
+        this.programasService.eliminarPrograma(programa.id)
+        .pipe(finalize(() => {
+          this.loaderService.isLoading.next(false);
+        }))
+        .subscribe((prog) => {
+          const index = this.programas.findIndex(p => p.id == prog.id);
+          if (index !== -1)
+            this.programas.splice(index, 1);
         });
       }
     });

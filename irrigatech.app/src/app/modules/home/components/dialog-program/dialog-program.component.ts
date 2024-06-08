@@ -82,11 +82,11 @@ export class DialogProgramComponent {
   }
 
   getPrograma(): Programa | undefined {
-    if (!this.data || !this.data.programa)
+    if (!this.data || (!this.data.new && !this.data.programa))
       return undefined;
     
     return {
-      id: this.data.programa.id,
+      id: this.data.new ? "" : this.data.programa?.id!,
       valvula: this.data.valvula,
       weekday: this.programForm.get('weekday')?.value,
       hora: this.getHour(),

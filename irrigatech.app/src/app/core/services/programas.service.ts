@@ -23,6 +23,10 @@ export class ProgramasService {
     }
 
     editarPrograma(programa: Programa) : Observable<Programa> {
-        return this.http.post<Programa>(`${environment.apiUrl}/api/programas/update`, programa);
+        return this.http.put<Programa>(`${environment.apiUrl}/api/programas/update`, programa);
+    }
+
+    eliminarPrograma(id: string) : Observable<Programa> {
+        return this.http.delete<Programa>(`${environment.apiUrl}/api/programas/remove/` + id);
     }
 }

@@ -1,4 +1,4 @@
-import { Body, Controller, Get, Param, Post } from '@nestjs/common';
+import { Body, Controller, Delete, Get, Param, Post, Put } from '@nestjs/common';
 import { ApiTags } from '@nestjs/swagger';
 import { ProgramasService } from './programas.service';
 import { ProgramaDto } from './dto/programa.dto';
@@ -18,8 +18,13 @@ export class ProgramasController {
         return await this.programasService.create(programaDto);
     }
 
-    @Post('update')
+    @Put('update')
     async update(@Body() programaDto: ProgramaDto) {
         return await this.programasService.update(programaDto);
+    }
+
+    @Delete('remove/:id')
+    async remove(@Param('id') id: string) {
+        return await this.programasService.remove(id);
     }
 }
