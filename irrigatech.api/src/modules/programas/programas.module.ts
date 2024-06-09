@@ -3,6 +3,7 @@ import { ProgramasController } from './programas.controller';
 import { ProgramasService } from './programas.service';
 import { MongooseModule } from '@nestjs/mongoose';
 import { ProgramaSchema } from './schema/programa.schema';
+import { CrontabService } from './crontab.service';
 
 @Module({
   imports: [
@@ -14,6 +15,6 @@ import { ProgramaSchema } from './schema/programa.schema';
     ])
   ],
   controllers: [ProgramasController],
-  providers: [ProgramasService]
+  providers: [ProgramasService, CrontabService]
 })
 export class ProgramasModule {}

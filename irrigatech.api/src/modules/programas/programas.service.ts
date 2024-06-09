@@ -3,20 +3,46 @@ import { Programa } from './schema/programa.schema';
 import { InjectModel } from '@nestjs/mongoose';
 import { Model } from 'mongoose';
 import { ProgramaDto } from './dto/programa.dto';
+import { BehaviorSubject, Observable } from 'rxjs';
 
 @Injectable()
 export class ProgramasService implements OnModuleInit {
     private programas: Programa[];
+    private _init: BehaviorSubject<Programa[]>;
+    private _update: BehaviorSubject<Programa | undefined>;
+    private _deleted: BehaviorSubject<string>;
 
     constructor(
         @InjectModel('programas') private readonly programaModel: Model<Programa>
-    ) {}
+    ) {
+        this._init = new BehaviorSubject<Programa[]>([]);
+        this._update = new BehaviorSubject<Programa | undefined>(undefined);
+        this._deleted = new BehaviorSubject<string>("");
+    }
 
     async onModuleInit() {
         this.programas = await this.programaModel.find();
+        this._init.next(this.programas);
     }
 
-    async find(valvula: number)
+    onInit(): Observable<Programa[]> {
+        return this._init.asObservable();
+    }
+
+    onUpdate(): Observable<Programa | undefined> {
+        return this._update.asObservable();
+    }
+
+    onDeleted(): Observable<string> {
+        return this._deleted.asObservable();
+    }
+
+    get() : Programa[]
+    {
+        return this.programas;
+    }
+
+    find(valvula: number)
     {
         return this.programas.filter((prog) => prog.valvula === valvula) || [];
     }
@@ -55,6 +81,7 @@ export class ProgramasService implements OnModuleInit {
             this.programas[index] = programa;
         else
             this.programas.push(programa);
+        this._update.next(programa);
     }
 
     removePrograma(id: string) : boolean {
@@ -62,6 +89,7 @@ export class ProgramasService implements OnModuleInit {
         if (index !== -1)
         {
             this.programas.splice(index, 1);
+            this._deleted.next(id);
             return true;
         }
         return false;
