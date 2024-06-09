@@ -4,13 +4,15 @@ import { CronJob } from "cron";
 import { Programa } from "./schema/programa.schema";
 import { ProgramasService } from "./programas.service";
 import { info } from "ps-logger";
+import { TareasService } from "../tareas/tareas.service";
 
 @Injectable()
 export class CrontabService implements OnModuleInit {
 
     constructor(
         private schedulerRegistry: SchedulerRegistry,
-        private programasService: ProgramasService
+        private programasService: ProgramasService,
+        private tareasService: TareasService
     ) {}
 
     async onModuleInit() {
@@ -40,18 +42,19 @@ export class CrontabService implements OnModuleInit {
         this.schedulerRegistry.addCronJob(programa.id, job);
         job.start();
 
-        info(`Tarea programada ${programa.id} (${programa.weekday}, ${programa.hora.hora}:${programa.hora.minuto})`);
+        info(`CronJob creado ${programa.id} (${programa.weekday}, ${programa.hora.hora}:${programa.hora.minuto})`);
     }
 
     deleteCronJob(id: string) : void {
         if (this.schedulerRegistry.doesExist('cron', id))
         {
             this.schedulerRegistry.deleteCronJob(id);
-            info(`Tarea eliminada ${id}`);
+            info(`CronJob eliminado ${id}`);
         }
     }
 
     callback(programa: Programa) : void {
-        console.log(`Tarea lanzada ${programa.id}`);
+        info(`CronJob ejecutado ${programa.id}`);
+        this.tareasService.run(programa.valvula, programa.id, programa.duracion);
     }
 }
