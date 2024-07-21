@@ -1,31 +1,34 @@
-#include "WifiConnection.hpp"
-#include "MqttController.hpp"
+#include "WifiConnection.h"
+#include "MqttController.h"
+#include "ValvulasController.h"
 #include "config.h"
 #include <time.h>
 #include <climits>
-#include "ValvulasController.hpp"
 
 #define TEMP_SENDSTATUS 60000
 
 const int SignalPin = 2;
 time_t tm_sendstatus = 0;
 
+WifiConnection wifiConn;
 MqttController mqttCtrl("ESP32_1");
 ValvulasController valvulasCtrl;
 
 void setup() {
   pinMode(SignalPin, OUTPUT);
   Serial.begin(115200);
-  setup_wifi(WIFI_SSID, WIFI_PASSWORD);
+  wifiConn.connect(WIFI_SSID, WIFI_PASSWORD);
   mqttCtrl.connect(MQTT_BROKER_ADDRESS, MQTT_PORT, onMessageReceived);
   mqttCtrl.subscribe("irrigatech/push_status");
   valvulasCtrl.init();
 }
 
 void loop() {
-  mqttCtrl.loop();
+  unsigned long now = millis();
 
-  auto now = millis();
+  wifiConn.loop(now);
+  mqttCtrl.loop(now);
+
   auto diff = now >= tm_sendstatus ? now - tm_sendstatus : ULLONG_MAX - tm_sendstatus + now;
   if (diff > TEMP_SENDSTATUS)
   {
