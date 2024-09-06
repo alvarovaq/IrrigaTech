@@ -6,6 +6,7 @@ import { HTTP_INTERCEPTORS, HttpClientModule } from '@angular/common/http';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { MatDialogModule } from '@angular/material/dialog';
 import { MatSelectModule } from '@angular/material/select';
+import { MatSnackBarModule } from '@angular/material/snack-bar';
 import { AuthInterceptor } from '@core/interceptors/auth.interceptor';
 
 @NgModule({
@@ -18,7 +19,8 @@ import { AuthInterceptor } from '@core/interceptors/auth.interceptor';
     HttpClientModule,
     BrowserAnimationsModule,
     MatDialogModule,
-    MatSelectModule
+    MatSelectModule,
+    MatSnackBarModule
   ],
   providers: [
     {
