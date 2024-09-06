@@ -20,6 +20,7 @@ async function bootstrap() {
     .setTitle('IrrigaTech API Documentation')
     .setVersion('1.0')
     .addTag('controlador')
+    .addTag('auth')
     .build();
   const document = SwaggerModule.createDocument(app, config);
   SwaggerModule.setup('documentation', app, document);

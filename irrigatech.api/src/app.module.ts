@@ -10,6 +10,7 @@ import { ProgramasModule } from './modules/programas/programas.module';
 import { MongooseModule } from '@nestjs/mongoose';
 import { ScheduleModule } from '@nestjs/schedule';
 import { TareasModule } from './modules/tareas/tareas.module';
+import { AuthModule } from './modules/auth/auth.module';
 
 @Module({
   imports: [
@@ -19,7 +20,7 @@ import { TareasModule } from './modules/tareas/tareas.module';
     }),
     MongooseModule.forRoot('mongodb://localhost:27017/irrigatech'),
     ScheduleModule.forRoot(),
-    ControladorModule, MqttModule, SocketModule, ValvulasModule, ProgramasModule, TareasModule],
+    ControladorModule, MqttModule, SocketModule, ValvulasModule, ProgramasModule, TareasModule, AuthModule],
   controllers: [AppController],
   providers: [AppService],
 })

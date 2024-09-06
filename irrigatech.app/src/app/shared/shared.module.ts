@@ -3,8 +3,6 @@ import { CommonModule } from '@angular/common';
 import { ToolbarComponent } from './components/toolbar/toolbar.component';
 import { MatModule } from './modules/mat/mat.module';
 
-
-
 @NgModule({
   declarations: [
     ToolbarComponent

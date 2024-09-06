@@ -1,8 +1,11 @@
-import { Controller, Get, Post, Body, Patch, Param, Delete } from '@nestjs/common';
+import { Controller, Get, Param, UseGuards } from '@nestjs/common';
 import { ControladorService } from './controlador.service';
-import { ApiTags } from '@nestjs/swagger';
+import { ApiBearerAuth, ApiTags } from '@nestjs/swagger';
+import { JwtAuthGuard } from 'src/guards/jwt-auth.guard';
 
+@ApiBearerAuth()
 @ApiTags('controlador')
+@UseGuards(JwtAuthGuard)
 @Controller('controlador')
 export class ControladorController {
   constructor(private readonly controladorService: ControladorService) {}
